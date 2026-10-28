@@ -1,39 +1,29 @@
-# Security — before making this repo public
+# Security
 
-## Secrets stay out of git
+LLM keys stay on the API process. The Next.js bundle is public; never put a provider key in `NEXT_PUBLIC_*`.
 
-| Safe to commit | Never commit |
-|----------------|--------------|
-| `.env.example` (empty placeholders) | `.env`, `.env.local`, `.env.production` |
-| Docs that say `XAI_API_KEY=...` | Real `xai-…` / any API token |
-| Railway / Vercel setup steps | Cloud dashboard secrets |
+## What belongs in git
 
-Ignored by `.gitignore`:
-
-- `.env`, `.env.*` (except `.env.example`)
-- `lenswrite-backend/.env`
-- `lenswrite-frontend/.env.local`
-
-## Where keys actually live
-
-| Secret | Where to set it |
+| Commit | Keep out of git |
 |--------|-----------------|
-| `XAI_API_KEY` | Local: `lenswrite-backend/.env` · Cloud: **Railway Variables** only |
-| `NEXT_PUBLIC_API_BASE` | Local: `lenswrite-frontend/.env.local` · Cloud: **Vercel env** (public URL only, not the xAI key) |
-| `CORS_ORIGINS` | Railway Variables |
+| `.env.example` with empty values | `.env`, `.env.local`, `.env.production` |
+| Docs that name `XAI_API_KEY` | Real `xai-…` tokens |
+| Deploy steps | Cloud dashboard secrets |
 
-`NEXT_PUBLIC_*` is visible in the browser bundle — never put API keys there.
+`.gitignore` already ignores `.env`, `.env.*` (except `*.env.example`), `lenswrite-backend/.env`, and `lenswrite-frontend/.env.local`.
 
-## Public-repo checklist
+## Where to set values
 
-1. [ ] `git ls-files | grep env` shows only `*.env.example`
-2. [ ] No real key in `git log -p -G 'xai-'` / GitHub secret scanning alerts
-3. [ ] Rotate `XAI_API_KEY` at [console.x.ai](https://console.x.ai) if it was ever pasted into chat, screenshots, or commits
-4. [ ] Update Railway Variable with the new key → Redeploy
-5. [ ] Then: GitHub → Settings → Danger Zone → **Change visibility → Public**
+| Name | Local | Cloud |
+|------|-------|-------|
+| `XAI_API_KEY` | `lenswrite-backend/.env` | Railway / Render variables |
+| `CORS_ORIGINS` | `lenswrite-backend/.env` | Railway / Render variables |
+| `NEXT_PUBLIC_API_BASE` | `lenswrite-frontend/.env.local` | Vercel env (API URL only) |
+
+`NEXT_PUBLIC_API_BASE` is the public FastAPI origin, not a model key.
 
 ## If a key leaked
 
-1. Revoke / rotate immediately at the provider
-2. Update Railway (and any other hosts)
-3. If it was in git history, rewrite history or treat the key as burned (rotation is enough for API keys)
+1. Rotate it at [console.x.ai](https://console.x.ai)
+2. Update the host variables and redeploy
+3. Treat any key that was in git history or chat as burned
