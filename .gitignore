@@ -1,0 +1,64 @@
+# --- Python ---
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Node / Next.js ---
+node_modules/
+lenswrite-frontend/.next/
+lenswrite-frontend/out/
+lenswrite-frontend/build/
+*.tsbuildinfo
+
+# --- Secrets & local env (never commit real keys) ---
+.env
+.env.*
+!.env.example
+!**/.env.example
+!**/.env.*.example
+lenswrite-backend/.env
+lenswrite-frontend/.env.local
+*.pem
+*.p12
+credentials.json
+secrets.json
+.railway/
+.vercel/
+
+# --- OS / IDE ---
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# --- Runtime / agent local ---
+.lenswrite_recent_voice.json
+*.log
+
+# --- Test dumps & batch outputs (keep scripts, drop results) ---
+batch_results*/
+**/batch_results*/
+test_results*/
+**/test_results*/
+*_results.json
+*_results_summary.json
+*_run.log
+*_summary.json
+smoke_test_result.json
+single_run_scores.json
+three_stories_result.json
+test_story_*.json
+pov_*.json
+length_ab_*.json
+prompt_length_compare_*.json
+style_ab_*.json
+
+# Agent traces (never publish run dumps)
+lenswrite-backend/traces/
+**/traces/

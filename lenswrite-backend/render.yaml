@@ -1,0 +1,23 @@
+# Optional Blueprint for Render.com
+# Dashboard: New → Blueprint → connect this repo, path lenswrite-backend/render.yaml
+# Or create a Web Service with Root Directory = lenswrite-backend
+
+# When creating the service in the dashboard, set Root Directory to lenswrite-backend.
+# This file lives inside that directory for reference.
+
+services:
+  - type: web
+    name: lenswrite-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: XAI_API_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: USE_HTTP_PROXY
+        value: "0"
+      - key: PYTHONUNBUFFERED
+        value: "1"

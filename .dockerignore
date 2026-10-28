@@ -1,0 +1,12 @@
+**/.git
+**/.venv
+**/node_modules
+**/__pycache__
+**/.next
+**/.env
+**/.env.*
+**/venv
+lenswrite-frontend
+*.md
+.git
+.DS_Store
